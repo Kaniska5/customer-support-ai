@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
 
     # Redis
-    REDIS_URL: str = ""
+    REDIS_URL: str = "redis://localhost:6379/0"
     REDIS_TTL_SECONDS: int = 3600
 
     # CORS
@@ -47,6 +47,14 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str = ""
     LANGSMITH_API_KEY: str = ""
     LANGSMITH_PROJECT: str = "customer-support-ai"
+    LANGCHAIN_TRACING_V2: bool = True
+
+    # Enterprise Guardrails & Limits (Phase 6)
+    MAX_AGENT_HOPS: int = 5
+    REFUND_APPROVAL_LIMIT: float = 200.0
+    MIN_CONFIDENCE_THRESHOLD: float = 0.45
+    ESCALATION_THRESHOLD: float = 0.40
+    MAX_RETRY_COUNT: int = 3
 
 
 settings = Settings()
