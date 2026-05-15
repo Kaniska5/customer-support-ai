@@ -1,9 +1,15 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
+import os
+
+# Resolve .env: try backend dir first, then parent (monorepo root)
+_backend_env = os.path.join(os.path.dirname(__file__), "../../.env")
+_root_env = os.path.join(os.path.dirname(__file__), "../../../.env")
+_env_file = _backend_env if os.path.exists(_backend_env) else _root_env
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=_env_file, extra="ignore")
 
     # Application
     APP_NAME: str = "Customer Support AI"

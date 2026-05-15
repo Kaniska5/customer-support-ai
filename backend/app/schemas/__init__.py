@@ -151,7 +151,7 @@ class ChatMessageRequest(BaseModel):
     session_id: str
     ticket_id: Optional[str] = None
     message: str = Field(..., min_length=1, max_length=4000)
-    metadata: Optional[dict[str, Any]] = None
+    meta_data: Optional[dict[str, Any]] = None
 
 
 class ChatMessageOut(BaseModel):
@@ -161,7 +161,7 @@ class ChatMessageOut(BaseModel):
     agent_name: Optional[str]
     confidence_score: Optional[float]
     sentiment: Optional[str]
-    metadata: Optional[dict[str, Any]]
+    meta_data: Optional[dict[str, Any]]
     created_at: datetime
 
     model_config = {"from_attributes": True}

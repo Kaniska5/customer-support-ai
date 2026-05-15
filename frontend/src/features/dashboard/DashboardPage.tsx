@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { ShoppingBag, Ticket, MessageSquare, TrendingUp, ArrowRight, Package, Clock } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { ordersApi, ticketsApi } from '@/api'
-import type { Order, Ticket } from '@/types'
+import type { Order, Ticket as TicketType } from '@/types'
 import { formatCurrency, formatDate, truncate } from '@/utils/cn'
 
 const statusColors: Record<string, string> = {
@@ -42,7 +42,7 @@ function SkeletonRow() {
 export function DashboardPage() {
   const { user } = useAuthStore()
   const [orders, setOrders] = useState<Order[]>([])
-  const [tickets, setTickets] = useState<Ticket[]>([])
+  const [tickets, setTickets] = useState<TicketType[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

@@ -18,6 +18,8 @@ from app.models import (
     OrderStatus, RefundStatus, TicketStatus, TicketPriority
 )
 from app.core.security import hash_password
+from app.database.vector_store import faq_vector_store
+from langchain_core.documents import Document
 import app.models  # noqa ensure all models loaded
 
 fake = Faker()
@@ -309,14 +311,27 @@ def seed(db: Session):
     print(f"  ✅ 80 tickets created")
 
     # ── FAQ Documents ──────────────────────────────────────────────────────────
+    faq_docs_for_faiss = []
     for doc in FAQ_DOCS:
-        db.add(FAQDocument(
+        faq = FAQDocument(
             id=str(uuid.uuid4()),
             category=doc["category"],
             title=doc["title"],
             content=doc["content"],
-        ))
+        )
+        db.add(faq)
+        faq_docs_for_faiss.append(
+            Document(
+                page_content=f"{doc['title']}\n{doc['content']}",
+                metadata={"category": doc["category"], "faq_id": str(faq.id), "title": doc["title"]}
+            )
+        )
+        
     print(f"  ✅ {len(FAQ_DOCS)} FAQ documents created")
+    
+    print("  🧠 Indexing FAQ documents into FAISS vector store...")
+    faq_vector_store.add_documents(faq_docs_for_faiss)
+    print("  ✅ FAISS index created and saved locally")
 
     db.commit()
     print("\n🎉 Seed complete!")

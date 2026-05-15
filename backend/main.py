@@ -9,7 +9,10 @@ from app.database.session import engine, Base
 from app.api.v1.auth import router as auth_router
 from app.api.v1.orders import router as orders_router
 from app.api.v1.tickets import router as tickets_router
-from app.api.v1.stubs import chat_router, analytics_router
+from app.api.v1.chat import router as chat_router
+from app.api.v1.analytics import router as analytics_router
+from app.api.v1.stubs import chat_router as stub_chat_router
+from app.api.v1.stubs import analytics_router as stub_analytics_router
 
 # Import all models so SQLAlchemy registers them before create_all
 import app.models  # noqa: F401
@@ -45,10 +48,10 @@ app.add_middleware(
 
 # ─── Routers ──────────────────────────────────────────────────────────────────
 PREFIX = "/api/v1"
-app.include_router(auth_router,      prefix=PREFIX)
-app.include_router(orders_router,    prefix=PREFIX)
-app.include_router(tickets_router,   prefix=PREFIX)
-app.include_router(chat_router,      prefix=PREFIX)
+app.include_router(auth_router, prefix=PREFIX)
+app.include_router(orders_router, prefix=PREFIX)
+app.include_router(tickets_router, prefix=PREFIX)
+app.include_router(chat_router, prefix=PREFIX)
 app.include_router(analytics_router, prefix=PREFIX)
 
 

@@ -2,9 +2,9 @@ import uuid
 from datetime import datetime, timezone
 from sqlalchemy import (
     Column, String, Boolean, DateTime, Text,
-    ForeignKey, Numeric, Integer, JSON, Enum as SAEnum
+    ForeignKey, Numeric, Integer, JSON, Enum as SAEnum,
+    Uuid as UUID
 )
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from app.database.session import Base
 import enum
@@ -181,7 +181,7 @@ class ChatHistory(Base):
     agent_name = Column(String(100), nullable=True)        # Which agent responded (Phase 2)
     confidence_score = Column(Numeric(4, 3), nullable=True)  # 0.000–1.000 (Phase 3)
     sentiment = Column(String(20), nullable=True)          # Phase 4
-    metadata = Column(JSON, nullable=True)                 # reasoning, tool calls, etc.
+    meta_data = Column(JSON, nullable=True)                 # reasoning, tool calls, etc.
     created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
 
     ticket = relationship("Ticket", back_populates="chat_history")
